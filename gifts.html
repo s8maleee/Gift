@@ -14,7 +14,7 @@ body{
   height:100vh;
   background:url("images/bg1.png") center/cover no-repeat;
   font-family:'Dancing Script',cursive;
-  overflow:hidden;
+  overflow-x:hidden;
 }
 
 
@@ -106,7 +106,7 @@ body{
   border-radius:30px;
   padding:40px;
   position:relative;
-  overflow:visible;   /* cho scroll ở đây */
+  overflow-y:auto;   /* cho scroll ở đây */
 }
 .modal-box.note-mode{
   background:transparent !important;
@@ -638,6 +638,30 @@ body{
   opacity:.7;
   transform:translateX(3px);
 }
+@media (max-width:768px){
+
+  .modal-box{
+    width:100vw;
+    height:100vh;
+    border-radius:0;
+  }
+
+  .story{
+    font-size:20px;
+    padding:0 15px;
+  }
+
+  .title{
+    font-size:28px;
+  }
+
+  .gift img{
+    width:120px;
+    height:120px;
+  }
+
+}
+
 
 
 </style>
@@ -1051,3 +1075,4 @@ function closeGift(){
 
 </body>
 </html>
+
