@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<title>Lá Thư</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500&family=Dancing+Script:wght@600;700&display=swap" rel="stylesheet">
+
+<style>
+*{box-sizing:border-box}
+
+body{
+  margin:0;
+  height:100vh;
+  background:url("images/letterbg.png") center/cover no-repeat;
+  font-family:'Playfair Display', serif;
+  overflow:hidden;
+}
+
+/* ===== BACK BUTTON ===== */
+.back-btn{
+  position:fixed;
+  bottom:30px;
+  left:40px;
+  font-size:30px;
+  color:#000000;
+  cursor:pointer;
+  text-decoration:none;
+  transition:.3s;
+  z-index:9999;
+}
+.back-btn:hover{
+  transform:translateX(-5px);
+}
+
+/* ===== BOOK CONTAINER ===== */
+.book-container{
+  perspective:2700px;
+  width:100%;
+  height:100vh;
+  display:flex;
+  justify-content:flex-end;
+  align-items:flex-start;
+  padding-right:5%;
+  padding-top:60px;
+}
+
+/* ===== BOOK ===== */
+.book{
+  position:relative;
+  width:700px;
+  height:400px;
+  transform-style: preserve-3d; 
+}
+
+/* ===== PAGE ===== */
+.page{
+  position:absolute;
+  width:100%;
+  height:100%;
+  transform-style:preserve-3d;
+  transform-origin:left center;
+  transition:transform 1s cubic-bezier(.65,.05,.36,1);
+  cursor:pointer;
+}
+
+.page.flipped{
+  transform:rotateY(-180deg);
+}
+
+/* ===== PAGE SIDES ===== */
+.front,
+.back{
+  position:absolute;
+  width:100%;
+  height:100%;
+  backface-visibility:hidden;
+  -webkit-backface-visibility:hidden; /* thêm dòng này */
+  background:#fff8f2;
+  border-radius:20px;
+  box-shadow:0 25px 60px rgba(0,0,0,.35);
+  padding:28px 35px;
+}
+
+
+.back{
+  transform:rotateY(180deg);
+}
+
+/* ===== CONTENT ===== */
+.content{
+  font-size:30px;   /* giảm nhẹ */
+  line-height:1.6;
+  height:100%;
+  overflow-y:visible;
+}
+
+.content h2{
+  font-size:32px;
+  color:#b63b6a;
+  margin-bottom:15px;
+}
+
+.content p{
+  font-size:22px;
+  line-height:1.7;
+  color:#8e0038;
+}
+
+/* ===== CONTROLS ===== */
+.controls{
+  position:absolute;
+  bottom:15px;
+  left:50%;
+  transform:translateX(-50%);
+  width:120px;
+  display:flex;
+  justify-content:space-between;
+  z-index:2000;
+}
+
+.controls button{
+  width:50px;
+  height:50px;
+  border-radius:50%;
+  border:none;
+  background:#b63b6a;
+  color:white;
+  font-size:20px;
+  cursor:pointer;
+  transition:.3s;
+  box-shadow:0 8px 20px rgba(0,0,0,.25);
+}
+
+.controls button:hover:not(.disabled){
+  transform:scale(1.1);
+}
+
+.controls button.disabled{
+  opacity:.3;
+  pointer-events:none;
+}
+
+
+.page p{
+  text-indent: 30px;   /* độ thụt vào */
+  line-height: 1.8;
+  text-align: justify;
+}
+.page p:first-of-type{
+  text-indent: 30px;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="back-btn" onclick="location.href='gifts.html'">
+  ← Quay lại những ký ức
+</div>
+
+<div class="book-container">
+  <div class="book">
+
+    <!-- PAGE 1 -->
+    <div class="page">
+      <div class="front">
+        <div class="content">
+          <h2>My Schatz,</h2>
+          <p>Hôm nay anh không mang theo chocolate,</p>
+          <p>chỉ mang theo một đóa cẩm tú cầu — như lời xin lỗi được gói ghém bằng tất cả sự chân thành.</p>
+          <p>Và một đóa hồng đỏ — thay cho tình yêu anh dành cho em, dịu dàng nhưng chưa từng phai.</p>
+          
+        </div>
+      </div>
+      <div class="back">
+        <div class="content">
+          <h2>Something...</h2>
+          <p>Xin lỗi vì đã làm em phải suy nghĩ trong thời gian qua khi mà em đang còn nhiều thứ phải lo lắng...</p>
+          <p>Không biết có phải vì ngày xưa anh đến với em quá dễ dàng nên bây giờ số phận bắt anh phải học cách bắt đầu lại từ đầu không. Nhân ngày hôm này anh chỉ dám gửi một bất ngờ nhỏ – để em biết rằng lòng anh vẫn ở đó, nguyên vẹn như ngày nào.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- PAGE 2 -->
+    <div class="page">
+      <div class="front">
+        <div class="content">
+          <p>Anh không phải người hứa cho hay rồi để đó. Điều gì anh biết mình làm được, anh mới nói. Hôm đó, nếu là một người khác, có lẽ họ sẽ dỗ dành em bằng những câu như “em đi đâu anh theo đó, đến chân trời góc bể cũng được”, để mọi chuyện lắng xuống rồi tiếp tục yêu. Nhưng anh không thể hứa khi chưa chắc mình thực hiện được. Anh không biết đó là điểm mạnh hay điểm yếu, nhưng anh đã đánh mất em ở khoảnh khắc đó. Còn bây giờ anh đã quyết định theo đuổi, nghĩa là anh sẵn sàng chịu trách nhiệm với lựa chọn của mình.</p>
+        </div>
+      </div>
+      <div class="back">
+        <div class="content">
+          
+          <p>Em từng nói: “Anh ở đâu cũng sẽ sống được thôi.” Câu nói ấy như một lời đánh thức. Nếu anh có thể sống ở bất cứ đâu, thì tại sao nơi đó lại không phải là nơi có em? HCM, Hà Nội hay Kon Tum suy cho cùng cũng chỉ là những địa điểm. Điều quan trọng là mình chọn ở đó vì điều gì. Và anh nhận ra, anh đang tự giới hạn khả năng bản thân mà không dám theo đuổi em.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- PAGE 3 -->
+    <div class="page">
+      <div class="front">
+        <div class="content">
+          
+          <p>Em là mục tiêu anh muốn hướng tới, là động lực để anh dám thay đổi và bước tiếp. Mọi kế hoạch anh đặt ra đều có thể thay đổi vì em. Ở thành phố hay về quê cũng được, miễn là em cảm thấy bình yên, không còn lo âu. Anh có thể chịu vất vả, chịu khó, nhưng anh không thể quen với một cuộc sống không có em trong đó. Điều anh cần lúc này không phải là một lời hứa, mà là niềm tin từ em – để anh biết mình có một ngọn hải đăng phía trước mà cố gắng.</p>
+        </div>
+      </div>
+      <div class="back">
+        <div class="content">
+          
+          <p>Nếu em về quê sớm như mẹ đã nói, đó cũng có thể là cách để em bớt áp lực rất rất nhiều. Phần còn lại, hãy để anh cố gắng. Đôi khi không cần phải một người gồng gánh tất cả, chỉ cần có người cùng chia sẻ. Anh đã từng đứng trước lựa chọn giữa Đức và Việt Nam, và anh rất hiểu cảm giác lưỡng lự đó như thế nào. Nhưng anh đã chọn về, vì nếu ở lại Đức, thì chúng ta sẽ không có cơ hội. Anh chưa từng xem đó là sự hy sinh, bởi với anh, xa em mới là điều không thể chấp nhận.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- PAGE 4 -->
+    <div class="page">
+      <div class="front">
+        <div class="content">          
+          <p>Bây giờ mọi thứ dần đi vào quỹ đạo. Nhưng em vẫn là nút thắt nằm sâu trong lòng anh – nhắc anh rằng mình vẫn còn một điều gì đó chưa trọn vẹn.</p>
+          <p>Em có muốn cùng anh gỡ nó ra không? Không phải để quay lại vội vàng, cũng không phải để ép mình phải bắt đầu ngay, mà để cả hai có thể nhẹ lòng. Để anh có thể yên tâm chuẩn bị những điều cần thiết cho tương lai – cho lần gặp lại mà khi đó, chúng ta đều đủ bình tĩnh, đủ trưởng thành và đủ sẵn sàng.</p>
+        </div>
+      </div>
+      <div class="back">
+        <div class="content">         
+          <p>Nếu chưa thể là điều gì lớn lao hơn thì mình có thể bắt đầu lại từ những người bạn. Anh vẫn muốn là người mà em có thể chia sẻ mọi điều, không áp lực, không ràng buộc. Chỉ cần em cho anh một cơ hội để được ở lại trong cuộc sống của em – dù là ở vị trí nào – anh cũng trân trọng.</p>
+          <p>Những điều cần nói, anh đã nói bằng tất cả sự chân thành của mình. Phần còn lại, anh xin để em quyết định.</p> 
+        </div>
+      </div>
+    </div>
+    <div class="page">
+      <div class="front">
+        <div class="content"> 
+          <h2>Secret ~</h2>
+         <p>Anh đã cố gắng rất nhiều, thật sự rất nhiều, để giữ lấy em – không những bằng lời hứa, mà còn bằng suy nghĩ, bằng hành động và cả lựa chọn.</p>
+         <p>"Trong câu chuyện của chúng ta, em muốn mình là ngọn hải đăng dẫn lối cho anh… hay là bóng đêm để anh lạc lối đây?"</p>
+        </div>
+      </div>
+      <div class="back">
+        <div class="content">         
+          <h2>P/S:</h2>
+          <p>Love you! Nớp diu!</p>
+          <p>Will you give us a chance?</p>
+          <p>Limuove</p>  
+      </div>
+    </div>
+  </div>
+  </div>
+    <div class="controls">
+      <button id="prevBtn">⟵</button>
+      <button id="nextBtn">⟶</button>
+  </div>
+</div>
+
+
+<audio id="bgMusic" src="love1.mp3" loop autoplay></audio>
+<script>
+let current = 0
+const pages = document.querySelectorAll(".page")
+const prevBtn = document.getElementById("prevBtn")
+const nextBtn = document.getElementById("nextBtn")
+
+// Hàm cập nhật lại thứ tự stack
+function updateZIndex(){
+  pages.forEach((page, index) => {
+    if(index < current){
+      // đã lật → nằm dưới
+      page.style.zIndex = index
+    } else {
+      // chưa lật → nằm trên
+      page.style.zIndex = pages.length - index
+    }
+  })
+}
+
+updateZIndex()
+updateButtons()
+
+nextBtn.onclick = function(){
+  if(current >= pages.length) return
+
+  pages[current].classList.add("flipped")
+  current++
+
+  updateZIndex()
+  updateButtons()
+}
+
+prevBtn.onclick = function(){
+  if(current <= 0) return
+
+  current--
+  pages[current].classList.remove("flipped")
+
+  updateZIndex()
+  updateButtons()
+}
+
+function updateButtons(){
+  prevBtn.classList.toggle("disabled", current === 0)
+  nextBtn.classList.toggle("disabled", current === pages.length)
+}
+const music = document.getElementById("bgMusic")
+music.volume = 0.1   // 0.0 → 1.0
+
+</script>
+
+</body>
+</html>

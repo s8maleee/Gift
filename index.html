@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<title>Valentine Gift</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@500;600;700&family=Playfair+Display:wght@400;600&display=swap" rel="stylesheet">
+
+<style>
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  height: 100vh;
+  background:url("images/bg4.png") center/cover no-repeat;
+  font-family: 'Playfair Display', serif;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* ===== TEXT TRÊN CÙNG ===== */
+.top-text {
+  position: absolute;
+  top: 40px;
+  width: 100%;
+  text-align: center;
+  font-family: 'Dancing Script', cursive;
+  font-size: 42px;
+  font-weight: 700;
+  color: #b63b6a;
+}
+
+/* ================= HEART BACKGROUND ================= */
+.heart-bg {
+  position: fixed;
+  top: -40px;
+  pointer-events: none;
+  opacity: 0.85;
+  animation: fall linear forwards, sway ease-in-out infinite;
+}
+
+@keyframes fall {
+  to { transform: translateY(110vh); opacity: 0; }
+}
+
+@keyframes sway {
+  0% { margin-left: 0; }
+  50% { margin-left: 60px; }
+  100% { margin-left: 0; }
+}
+
+/* ================= LETTER ================= */
+.letter-wrapper {
+  position: absolute;
+  z-index: 10;
+  animation: float 3s ease-in-out infinite;
+}
+
+.letter-img {
+  width: 470px;
+  display: block;
+}
+
+.from-text {
+  position: absolute;
+  top: 130px;
+  left: 65px;
+  font-family: 'Dancing Script', cursive;
+  font-size: 40px;
+  color: #8e0038;
+}
+
+.to-text {
+  position: absolute;
+  bottom: 110px;
+  right: 55px;
+  font-family: 'Dancing Script', cursive;
+  font-size: 40px;
+  color: #8e0038;
+}
+
+.click-text {
+  position: absolute;
+  left: 50%;
+  top: 40%;
+  transform: translateX(-50%);
+  font-family: 'Dancing Script', cursive;
+  font-size: 25px;
+  font-weight: 600;
+  color: #b63b6a;
+  animation: blink 1.5s infinite;
+  pointer-events: none;
+}
+
+@keyframes blink {
+  0%,100% { opacity: 1; }
+  50% { opacity: .4; }
+}
+
+.heart-click {
+  position: absolute;
+  width: 80px;
+  height: 80px;
+  left: 50%;
+  top: 52%;
+  transform: translate(-50%, -50%);
+  cursor: pointer;
+}
+
+.heart-click:hover {
+  animation: pulse .8s infinite;
+}
+
+.letter-wrapper.hide {
+  animation: letterOut 1.2s forwards;
+}
+
+/* ================= GIFTS ================= */
+.gifts {
+  display: flex;
+  gap: 60px;
+  opacity: 0;
+  transform: scale(.9);
+  transition: all 1s ease;
+}
+
+.gifts.show {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.gift {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  animation: float 4s ease-in-out infinite;
+}
+
+.gift img {
+  width: 220px;
+  height: 220px;
+  object-fit: contain;
+  filter: drop-shadow(0 25px 35px rgba(0,0,0,.35));
+}
+
+.gift span {
+  margin-top: 14px;
+  font-size: 18px;
+  font-weight: 600;
+  color: #8e0038;
+}
+/* ===== ẢNH TRANG PHONG THƯ ===== */
+.envelope-photo{
+  position: absolute;
+  width: 200px;
+  border-radius: 18px;
+  
+  z-index: 5;
+  transition: 0.4s ease;
+}
+
+/* bên trái */
+.photo-left{
+  right: 330px;
+  bottom: 85px;
+  transform: rotate(-10deg);
+}
+
+/* bên phải */
+.photo-right{
+  right: 115px;
+  bottom: 80px;
+  transform: rotate(10deg);
+}
+
+/* hover nhẹ */
+.envelope-photo:hover{
+  transform: scale(1.05) rotate(0deg);
+}
+
+/* ================= ANIMATION ================= */
+@keyframes float {
+  0% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+  100% { transform: translateY(0); }
+}
+
+@keyframes pulse {
+  0% { transform: translate(-50%, -50%) scale(1); }
+  50% { transform: translate(-50%, -50%) scale(1.15); }
+  100% { transform: translate(-50%, -50%) scale(1); }
+}
+
+@keyframes letterOut {
+  to {
+    opacity: 0;
+    transform: translateY(-200px) scale(.8);
+    pointer-events: none;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<div class="top-text">
+  💖 Happy Valentine Day 💖<br>
+  Anh sẽ bắt đầu lại với em bằng món quà này...
+</div>
+
+<div class="letter-wrapper" id="letter">
+  <img src="images/letter.png" class="letter-img">
+  
+  <div class="from-text">From: ...</div>
+  <div class="to-text">To: ~</div>
+  <div class="click-text">>>> Em mở ra đi <<<</div>
+  <div class="heart-click" id="openBtn"></div>
+</div>
+<img src="images/cuong.png" class="envelope-photo photo-left">
+<img src="images/lin.png" class="envelope-photo photo-right">
+<div class="gifts" id="gifts">
+  <div class="gift"><img src="images/hcm.png"><span>Xuân</span></div>
+  <div class="gift"><img src="images/phuquoc.png"><span>Hạ</span></div>
+  <div class="gift"><img src="images/dalat.png"><span>Thu</span></div>
+  <div class="gift"><img src="images/danang.png"><span>Đông</span></div>
+</div>
+
+<!-- ===== MUSIC (CHỈ PHẦN NÀY ĐƯỢC SỬA) ===== -->
+<audio id="bgMusic" src="love.mp3" loop></audio>
+<script>
+const music = document.getElementById('bgMusic');
+music.volume = 0.05;
+
+/* HEART BACKGROUND */
+const HEART_INTERVAL = 400;
+const MAX_HEARTS = 40;
+
+function createHeart() {
+  if (document.querySelectorAll('.heart-bg').length > MAX_HEARTS) return;
+  const heart = document.createElement('img');
+  heart.src = 'images/heart.png';
+  heart.className = 'heart-bg';
+  heart.style.width = (Math.random() * 18 + 18) + 'px';
+  heart.style.left = Math.random() * 100 + 'vw';
+  heart.style.animationDuration =
+    (Math.random() * 5 + 6) + 's, ' +
+    (Math.random() * 2 + 2) + 's';
+  document.body.appendChild(heart);
+  setTimeout(() => heart.remove(), 12000);
+}
+setInterval(createHeart, HEART_INTERVAL);
+
+/* mở thư */
+const btn = document.getElementById('openBtn');
+const letter = document.getElementById('letter');
+const gifts = document.getElementById('gifts');
+const text = document.querySelector('.top-text');
+
+btn.onclick = () => {
+  music.play()
+  window.location.href = "gifts.html";
+  setTimeout(() => {
+    gifts.classList.add('show');
+    /* chuyển sang trang chọn quà */
+    setTimeout(() => location.href = 'gifts.html', 1200);
+  }, 600);
+};
+</script>
+
+</body>
+</html>

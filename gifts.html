@@ -1,0 +1,1053 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<title>Choose Your Gift</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600;700&display=swap" rel="stylesheet">
+
+
+<style>
+*{box-sizing:border-box}
+body{
+  margin:0;
+  height:100vh;
+  background:url("images/bg1.png") center/cover no-repeat;
+  font-family:'Dancing Script',cursive;
+  overflow:hidden;
+}
+
+
+
+/* ===== TITLE ===== */
+.title{
+  margin-top:40px;
+  text-align:center;
+  font-size:42px;
+  color:#000000
+}
+.back{
+  position:absolute;
+  top:30px;
+  left:30px;
+  font-size:30px;
+  cursor:pointer;
+  color:#000000;
+  text-decoration:none;      /* bỏ gạch chân */
+  transition:.3s;
+}
+
+.back:hover{
+  opacity:.7;
+  transform:translateX(-3px);
+}
+
+
+/* ===== GIFTS ===== */
+.gifts{
+  margin-top:50px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:30px;   /* khoảng cách giữa 2 hàng */
+}
+
+.gift-row{
+  display:flex;
+  justify-content:center;
+  gap:70px;   /* khoảng cách giữa các box */
+}
+
+.gift-row.bottom{
+  gap:120px;  /* 2 box dưới cách nhau vừa phải */
+}
+
+
+.gift{
+  text-align:center;
+  cursor:pointer;
+  transition:.35s
+}
+.gift:hover{transform:scale(1.2)}
+.gift img{
+  width:195px;
+  height:195px;
+  object-fit:contain;
+  filter:drop-shadow(0 20px 30px rgba(0,0,0,.3))
+}
+.gift span{
+  display:block;
+  margin-top:6px;
+  font-size:24px;          /* tăng nhẹ */
+  color:#000000;
+  letter-spacing:1px;
+  text-shadow:0 3px 8px rgba(0,0,0,.15);
+}
+
+
+/* ===== MODAL ===== */
+.modal{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.55);   /* giảm độ tối */
+  backdrop-filter:blur(2px);   /* tăng blur mạnh hơn */
+  -webkit-backdrop-filter:blur(18px);
+  display:none;
+  align-items:center;
+  justify-content:center;
+  z-index:20;
+}
+
+.modal.show{display:flex}
+.modal-box{
+  background:#fff0f5;
+  width:95vw;
+  height:95vh;
+  border-radius:30px;
+  padding:40px;
+  position:relative;
+  overflow:visible;   /* cho scroll ở đây */
+}
+.modal-box.note-mode{
+  background:transparent !important;
+  box-shadow:none;
+  backdrop-filter:none;
+}
+
+
+@keyframes popup{
+  from{transform:scale(.85);opacity:0}
+  to{transform:scale(1);opacity:1}
+}
+.close{
+  position:absolute;
+  top:10px;
+  right:10px;
+  font-size:28px;
+  cursor:pointer;
+  color:#d980a4
+}
+.layout{ 
+  display:none;
+  width:100%;
+  opacity:0;}
+
+.layout.active{
+  display:block;
+}
+.layout h2{
+  text-align:center;
+  font-size:48px;
+  color:#b63b6a;
+  margin-bottom:10px
+}
+.story{
+  max-width:1150px;
+  margin:0 auto 30px;
+  text-align:center;
+  font-size:28px;
+  line-height:1.7;
+  color:#8e0038
+}
+
+/* ===== Animation Variations ===== */
+
+/* Fade + Scale */
+.layout.anim-fade{
+  animation:layoutFade .8s ease forwards;
+}
+@keyframes layoutFade{
+  from{ opacity:0; transform:scale(.9); }
+  to{ opacity:1; transform:scale(1); }
+}
+
+/* Slide Up */
+.layout.anim-up{
+  animation:layoutUp .9s ease forwards;
+}
+@keyframes layoutUp{
+  from{ opacity:0; transform:translateY(60px); }
+  to{ opacity:1; transform:translateY(0); }
+}
+
+/* Slide Right */
+.layout.anim-right{
+  animation:layoutRight .9s ease forwards;
+}
+@keyframes layoutRight{
+  from{ opacity:0; transform:translateX(-80px); }
+  to{ opacity:1; transform:translateX(0); }
+}
+
+/* Rotate Soft */
+.layout.anim-rotate{
+  animation:layoutRotate 1s ease forwards;
+}
+@keyframes layoutRotate{
+  from{ opacity:0; transform:rotate(-4deg) scale(.95); }
+  to{ opacity:1; transform:rotate(0) scale(1); }
+}
+
+
+/* ===== ĐÀ LẠT ===== */
+.hanging{
+  position:relative;
+  width:100%;
+  height:calc(100% - 160px);
+  display:flex;
+  justify-content:center;
+  gap:40px;
+  padding-top:50px
+}
+.photo{
+  position:relative;
+  transform-origin:top center;
+  animation:swing 5s ease-in-out infinite
+}
+.photo:nth-child(even){animation-duration:6s}
+.photo::before{
+  content:'';
+  position:absolute;
+  top:-40px;
+  left:50%;
+  width:2px;
+  height:40px;
+  background:#aaa;
+  transform:translateX(-50%)
+}
+.photo img{
+  width:140px;
+  padding:3px;
+  background:#fff0f5;
+  border-radius:10px;
+  box-shadow:0 18px 30px rgba(0,0,0,.35)
+}
+.photo:nth-child(odd){transform:rotate(-4deg)}
+.photo:nth-child(even){transform:rotate(5deg)}
+@keyframes swing{
+  0%{transform:rotate(-3deg)}
+  50%{transform:rotate(3deg)}
+  100%{transform:rotate(-3deg)}
+}
+
+/* ===== SÀI GÒN ===== */
+.saigon-wrap{
+  display:grid;
+  grid-template-columns:1.2fr 1fr;
+  gap:40px;
+  align-items:center
+}
+.saigon-main img {
+  width: 100%;
+  max-height: 420px;
+  object-fit: cover;
+  border-radius: 26px;
+  box-shadow: 0 20px 40px rgba(0,0,0,.35);
+  animation: floatSlow 6s ease-in-out infinite;
+  object-position: center 70%; 
+}
+
+.saigon-side{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:22px
+}
+.saigon-side img {
+  width: 100%;
+  max-height: 200px;
+  object-fit: cover;
+  border-radius: 18px;
+  box-shadow: 0 14px 26px rgba(0,0,0,.25);
+  transition: transform .4s ease;
+  justify-self: start;
+}
+.saigon-grid {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap: 24px; /* từ 48 → 24 */
+}
+
+/* ===== FIX RIÊNG CHO SÀI GÒN ===== */
+.layout-saigon{
+  max-height: calc(100vh - 60px); /* trừ header + padding */
+  padding-top:0;            /* bỏ padding-top */
+  margin-top:-20px;         /* kéo toàn bộ layout lên */
+  padding-right: 10px;
+  overflow-y: auto;
+}
+
+
+/* ===== SAIGON APPEAR EFFECT - SLOW ROMANTIC ===== */
+
+.layout-saigon .saigon-main img,
+.layout-saigon .saigon-side img{
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 1.8s ease, transform 1.8s ease;
+}
+
+/* Ảnh lớn xuất hiện đầu tiên */
+.layout-saigon.active .saigon-main img{
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: 0.5s;
+}
+
+/* 4 ảnh nhỏ xuất hiện lần lượt */
+.layout-saigon.active .saigon-side img{
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.layout-saigon.active .saigon-side img:nth-child(1){ transition-delay: 1.2s; }
+.layout-saigon.active .saigon-side img:nth-child(2){ transition-delay: 1.8s; }
+.layout-saigon.active .saigon-side img:nth-child(3){ transition-delay: 2.4s; }
+.layout-saigon.active .saigon-side img:nth-child(4){ transition-delay: 3s; }
+
+@keyframes floatSlow{
+  0%{transform:translateY(0)}
+  50%{transform:translateY(-10px)}
+  100%{transform:translateY(0)}
+}
+
+/* ===== HEART ===== */
+.heart-bg{
+  position:fixed;
+  top:-40px;
+  opacity:.8;
+  animation:fall linear forwards,sway ease-in-out infinite;
+  pointer-events:none
+}
+@keyframes fall{to{transform:translateY(110vh);opacity:0}}
+@keyframes sway{
+  0%{margin-left:0}
+  50%{margin-left:60px}
+  100%{margin-left:0}
+}
+/* ===== PHÚ QUỐC HEART GALLERY ===== */
+
+.layout-phuquoc h2 {
+  text-align: center;
+  font-size: 48px;
+  color: #b63b6a;
+  margin-bottom: 0px;
+}
+.layout-phuquoc{
+  padding-top:10px;
+  padding-bottom:0px;
+}
+
+.layout-phuquoc .story {
+  text-align: center;
+  
+  font-size: 38px;
+  color: #8e0038;
+  max-width: 900px;
+  margin: 0 auto 50px;
+  line-height: 1.6;
+}
+
+/* Heart Grid */
+.phuquoc-heart {
+  width: 600px;
+  margin: 0 auto 50px;
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  grid-template-rows: repeat(6, 1fr);
+  gap: 0px;
+}
+
+.phuquoc-heart img {
+  width: 100%;
+  height: 110px;
+  object-fit: cover;
+  border-radius: 18px;
+  box-shadow: 0 12px 25px rgba(0,0,0,.3);
+  transition: transform .4s ease;
+}
+
+.phuquoc-heart img:hover {
+  transform: scale(1.07);
+}
+.layout-phuquoc .phuquoc-heart img{
+  animation: heartbeat 2.5s ease-in-out infinite;
+  animation-delay: calc(var(--i) * 0.2s);
+}
+
+@keyframes heartbeat {
+  0%   { transform: scale(1); box-shadow:0 12px 25px rgba(0,0,0,.3); }
+  14%  { transform: scale(1.1); box-shadow:0 20px 35px rgba(255,150,0,.4); }
+  28%  { transform: scale(1); }
+  42%  { transform: scale(1.1); box-shadow:0 20px 35px rgba(255,150,0,.4); }
+  70%  { transform: scale(1); }
+  100% { transform: scale(1); }
+}
+
+/* ===== ĐÀ NẴNG CINEMA ===== */
+.danang-film{
+  position:relative;
+  width:100%;
+  max-width:1600px;
+  height:300px;
+  margin:40px auto 0;
+  overflow:hidden;
+  border-radius:30px;
+  box-shadow:0 30px 60px rgba(0,0,0,.4);
+}
+
+/* Track chạy ngang */
+.danang-track{
+  display:flex;
+  width:max-content;
+  height:100%;
+  animation:filmScroll 40s linear infinite;
+}
+
+.danang-track img{
+  width:350px;
+  height:100%;
+  object-fit:cover;
+  flex-shrink:0;
+  filter:brightness(.85) contrast(1.05);
+}
+
+/* Overlay điện ảnh */
+.danang-film::after{
+  content:'';
+  position:absolute;
+  inset:0;
+  background:radial-gradient(circle at center,
+    rgba(0,0,0,0) 60%,
+    rgba(0,0,0,.35) 100%);
+  pointer-events:none;
+}
+
+/* Animation */
+@keyframes filmScroll{
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+.layout-danang{
+  padding-top:0;            /* bỏ padding-top */
+  margin-top:-20px;         /* kéo toàn bộ layout lên */
+}
+
+.layout-danang h2{
+  margin-top:0;
+  margin-bottom:15px;
+}
+
+.layout-danang .story{
+  font-size: 25px;
+  margin-top:0;
+  margin-bottom:25px;
+}
+
+
+/* ===== LEAF ===== */
+.leaf{
+  position:absolute;
+  top:-60px;
+  opacity:.85;
+  pointer-events:none;
+  animation:leaf-fall linear forwards,leaf-sway ease-in-out infinite
+}
+@keyframes leaf-fall{
+  to{transform:translateY(110vh) rotate(360deg);opacity:0}
+}
+@keyframes leaf-sway{
+  0%{margin-left:0}
+  50%{margin-left:50px}
+  100%{margin-left:0}
+}
+/* ===== FLOWER ===== */
+.flower{
+  position:absolute;
+  top:-60px;
+  opacity:.9;
+  pointer-events:none;
+  animation:flower-fall linear forwards,flower-sway ease-in-out infinite;
+}
+@keyframes flower-fall{
+  to{transform:translateY(110vh) rotate(360deg);opacity:0}
+}
+@keyframes flower-sway{
+  0%{margin-left:0}
+  50%{margin-left:60px}
+  100%{margin-left:0}
+}
+
+/* ===== SNOW ===== */
+.snow{
+  position:absolute;
+  top:-40px;
+  opacity:.85;
+  pointer-events:none;
+  animation:snow-fall linear forwards,snow-sway ease-in-out infinite;
+}
+@keyframes snow-fall{
+  to{transform:translateY(110vh);opacity:0}
+}
+@keyframes snow-sway{
+  0%{margin-left:0}
+  50%{margin-left:30px}
+  100%{margin-left:0}
+}
+/* ===== SEASON BACKGROUNDS ===== */
+
+.spring{
+  background:linear-gradient(135deg,#ffe3ec,#ffd1dc,#fff0f5);
+}
+
+.summer{
+  background:linear-gradient(135deg,#fff6c9,#ffd86b,#ffb347);
+}
+
+.autumn{
+  background:linear-gradient(135deg,#ffe0c3,#ffb07c,#e27d60);
+}
+
+.winter{
+  background:linear-gradient(135deg,#e6f2ff,#cfe9ff,#b0d4ff);
+}
+/* ===== CINEMATIC NOTE ===== */
+
+.note-wrap{
+  display:flex;
+  justify-content:center;
+  gap:80px;
+  margin-top:60px;
+  position:relative;
+}
+
+.note-card{
+  width:380px;
+  height:340px;
+  padding:50px 40px;
+  background:#fff8c6;
+  border-radius:8px;
+  box-shadow:0 30px 60px rgba(0,0,0,.5);
+  position:relative;
+  opacity:0;
+  transform:translateY(-200px) rotate(-8deg) scale(.9);
+}
+
+.note-card:nth-child(2){
+  transform:translateY(-200px) rotate(8deg) scale(.9);
+}
+
+/* Rơi xuống */
+.layout-note1.active .note-card,
+.layout-note2.active .note-card{
+  animation:noteDrop .9s cubic-bezier(.2,1.2,.4,1) forwards,
+            noteFloat 4s ease-in-out infinite 1s;
+}
+
+.layout-note1.active .note-card:nth-child(2),
+.layout-note2.active .note-card:nth-child(2){
+  animation-delay:.3s,1.3s;
+}
+
+@keyframes noteDrop{
+  0%{
+    opacity:0;
+    transform:translateY(-250px) rotate(-12deg) scale(.8);
+  }
+  80%{
+    transform:translateY(10px) rotate(-3deg) scale(1.02);
+  }
+  100%{
+    opacity:1;
+    transform:translateY(0) rotate(-4deg) scale(1);
+  }
+}
+
+/* Rung nhẹ sau khi rơi */
+@keyframes noteFloat{
+  0%{ transform:translateY(0) rotate(-4deg); }
+  50%{ transform:translateY(-6px) rotate(-3deg); }
+  100%{ transform:translateY(0) rotate(-4deg); }
+}
+
+
+.pin{
+  width:26px;
+  height:26px;
+  background:radial-gradient(circle at 30% 30%, #ff4d4d, #a30000);
+  border-radius:50%;
+  position:absolute;
+  top:-14px;
+  left:50%;
+  transform:translateX(-50%);
+  box-shadow:0 8px 15px rgba(0,0,0,.5);
+}
+
+.note-text{
+  font-size:26px;
+  line-height:1.7;
+  color:#5a0030;
+  opacity:0;
+  transform:translateY(15px);
+  margin: 0;
+}
+
+.layout-note1.active .note-text,
+.layout-note2.active .note-text{
+  animation:textFade 2s ease forwards;
+  animation-delay:1.1s;
+}
+.layout-note1 h2,
+.layout-note2 h2{
+  display:inline-block;
+  padding:12px 40px;
+  border-radius:40px;
+  background:#eee390;
+  backdrop-filter:blur(10px);
+  -webkit-backdrop-filter:blur(10px);
+  color:#000000;
+  text-shadow:0 4px 12px rgba(0,0,0,.6);
+  margin: 0 0 20px 0; /* chỉ để khoảng cách dưới */
+}
+.layout-note1 ,
+.layout-note2 {
+  text-align:center;
+}
+
+@keyframes textFade{
+  from{
+    opacity:0;
+    transform:translateY(20px);
+  }
+  to{
+    opacity:1;
+    transform:translateY(0);
+  }
+}
+.letter-btn{
+  position:absolute;
+  top:30px;
+  right:30px;
+  font-size:30px;
+  color:#000000;
+  cursor:pointer;
+  transition:.3s;
+}
+
+.letter-btn:hover{
+  opacity:.7;
+  transform:translateX(3px);
+}
+
+
+</style>
+</head>
+
+<body>
+
+<div class="title">Hãy chọn hộp kí ức mà em thấy thích</div>
+<div class="back" onclick="location.href='index.html'">← Quay lại</div>
+<div class="letter-btn" onclick="location.href='letter.html'">💌 Đọc lá thư</div>
+
+
+<div class="gifts">
+
+  <!-- HÀNG TRÊN -->
+  <div class="gift-row top">
+    <div class="gift" onclick="openGift('saigon')">
+      <img src="images/hcm.png"><span>Xuân</span>
+    </div>
+
+    <div class="gift" onclick="openGift('phuquoc')">
+      <img src="images/phuquoc.png"><span>Hạ</span>
+    </div>
+
+    <div class="gift" onclick="openGift('dalat')">
+      <img src="images/dalat.png"><span>Thu</span>
+    </div>
+
+    <div class="gift" onclick="openGift('danang')">
+      <img src="images/danang.png"><span>Đông</span>
+    </div>
+  </div>
+
+  <!-- HÀNG DƯỚI -->
+  <div class="gift-row bottom">
+    <div class="gift" onclick="openGift('note1')">
+      <img src="images/camtucau.png"><span>Anh</span>
+    </div>
+
+    <div class="gift" onclick="openGift('note2')">
+      <img src="images/hoahong.png"><span>Em</span>
+    </div>
+  </div>
+
+</div>
+
+<div class="modal" id="modal">
+  <div class="modal-box">
+    <div class="close" onclick="closeGift()">✕</div>
+
+    
+
+    <!-- ĐÀ LẠT -->
+<div class="layout layout-dalat">
+  <h2>Đà Lạt</h2>
+  <p class="story">
+Đây là nơi anh có thể buông lỏng mọi thứ, không cần gồng mình nữa —
+chỉ còn sự êm đềm và những giấc mơ nhỏ bên người anh yêu.
+Anh chưa từng quên ngày anh ốm, rét run cầm cập, và em lặng lẽ chăm sóc anh
+bằng tất cả sự lo lắng dịu dàng của mình.
+Khoảnh khắc ấy, anh biết trái tim mình đã ở lại.
+Nếu được lựa chọn, anh vẫn muốn quay về nơi này…
+và chỉ muốn đi cùng em.
+  </p>
+
+  <div class="hanging">
+    <div class="photo"><img src="images/dalat/1.jpg"></div>
+    <div class="photo"><img src="images/dalat/2.jpg"></div>
+    <div class="photo"><img src="images/dalat/3.jpg"></div>
+    <div class="photo"><img src="images/dalat/4.jpg"></div>
+    <div class="photo"><img src="images/dalat/5.jpg"></div>
+    <div class="photo"><img src="images/dalat/6.jpg"></div>
+    <div class="photo"><img src="images/dalat/7.jpg"></div>
+    <div class="photo"><img src="images/dalat/8.jpg"></div>
+  </div>
+</div>
+
+
+<!-- PHÚ QUỐC -->
+<div class="layout layout-phuquoc">
+  <div style="display:flex; justify-content:center; gap:70px; flex-wrap:wrap;">
+
+    <div style="max-width:650px;">
+      <h2>Phú Quốc</h2>
+      <p class="story" style="text-align:left;">
+Chuyến đi này đong đầy những kỷ niệm thật đẹp. Dù thời tiết không chiều lòng người, nhưng với anh, đó lại là khoảng thời gian anh và em hạnh phúc nhất – khi cả hai chỉ có tiếng cười, chẳng vướng bận những lo toan về tương lai.
+Có lẽ vì thế mà anh cảm nhận rõ ràng hơn bao giờ hết: đây chính là “chuyến trăng mật” ngọt ngào nhất của tình yêu chúng mình. 💛
+      </p>
+    </div>
+
+    <div class="phuquoc-heart">
+
+      <div style="grid-column: 2 / span 2;"><img src="images/phuquoc/1.jpg"></div>
+      <div style="grid-column: 6 / span 2;"><img src="images/phuquoc/2.jpg"></div>
+
+      <div style="grid-column: 1 / span 2;"><img src="images/phuquoc/3.jpg"></div>
+      <div style="grid-column: 3 / span 2;"><img src="images/phuquoc/4.jpg"></div>
+      <div style="grid-column: 5 / span 2;"><img src="images/phuquoc/5.jpg"></div>
+      <div style="grid-column: 7 / span 2;"><img src="images/phuquoc/6.jpg"></div>
+
+      <div style="grid-column: 2 / span 2;"><img src="images/phuquoc/7.jpg"></div>
+      <div style="grid-column: 4 / span 2;"><img src="images/phuquoc/8.jpg"></div>
+      <div style="grid-column: 6 / span 2;"><img src="images/phuquoc/9.jpg"></div>
+
+      <div style="grid-column: 3 / span 2;"><img src="images/phuquoc/10.jpg"></div>
+      <div style="grid-column: 5 / span 2;"><img src="images/phuquoc/11.jpg"></div>
+
+      <div style="grid-column: 4 / span 2;"><img src="images/phuquoc/12.jpg"></div>
+
+    </div>
+
+  </div>
+</div> <!-- ✅ ĐÓNG layout-phuquoc -->
+
+
+<!-- SÀI GÒN -->
+<div class="layout layout-saigon">
+  <h2>Sài Gòn</h2>
+  <p class="story">
+Đây là nơi bắt đầu của anh và em.
+Anh nhớ ngày đầu tiên anh gặp em…
+Nhớ khoảnh khắc anh đã không kìm được nước mắt trước mặt em.
+Khi ấy, anh cũng không hiểu vì sao mình lại như vậy.
+Chỉ biết rằng, chính giây phút đó, anh đã chắc chắn một điều:
+em là người anh muốn chọn để đồng hành cùng anh trên suốt chặng đường phía trước.
+  </p>
+
+  <div class="saigon-wrap">
+    <div class="saigon-main">
+      <img src="images/saigon/1.jpg">
+    </div>
+    <div class="saigon-side">
+      <img src="images/saigon/2.jpg">
+      <img src="images/saigon/3.jpg">
+      <img src="images/saigon/4.jpg">
+      <img src="images/saigon/5.jpg">
+    </div>
+  </div>
+</div>
+<!-- ĐÀ NẴNG -->
+<div class="layout layout-danang">
+  <h2>Đà Nẵng</h2>
+  <p class="story">
+Anh và em đã rong ruổi qua từng con đường, chẳng cần biết điểm đến là đâu. Có những lúc mọi thứ lệch khỏi kế hoạch mà chúng ta từng vẽ ra, nhưng chính những điều “không đúng dự tính” ấy lại trở thành những kỷ niệm đẹp nhất. Vì khi ở bên em, hành trình quan trọng hơn đích đến.
+Anh từng nghĩ mình là người sống theo kế hoạch, luôn sắp xếp mọi thứ thật rõ ràng. Nhưng rồi anh nhận ra, mọi kế hoạch nếu thiếu em đồng hành đều trở nên trống rỗng. Anh có thể thay đổi hướng đi, thay đổi điểm đến, thay đổi cả những điều anh từng chắc chắn… chỉ cần người đi cùng vẫn là em.
+  </p>
+
+  <div class="danang-film">
+    <div class="danang-track">
+      <img src="images/danang/1.jpg">
+      <img src="images/danang/2.jpg">
+      <img src="images/danang/3.jpg">
+      <img src="images/danang/4.jpg">
+      <img src="images/danang/5.jpg">
+      <img src="images/danang/6.jpg">
+      <img src="images/danang/7.jpg">
+      <img src="images/danang/8.jpg">
+      <img src="images/danang/9.jpg">
+      <img src="images/danang/10.jpg">
+      <img src="images/danang/11.jpg">
+      <img src="images/danang/12.jpg">
+      <img src="images/danang/13.jpg">
+      <img src="images/danang/14.jpg">
+      <img src="images/danang/15.jpg">
+      <img src="images/danang/16.jpg">
+      <img src="images/danang/17.jpg">
+      <img src="images/danang/18.jpg">
+      <img src="images/danang/19.jpg">
+      <img src="images/danang/1.jpg">
+      <img src="images/danang/2.jpg">
+      <img src="images/danang/3.jpg">
+      <img src="images/danang/4.jpg">
+      <img src="images/danang/5.jpg">
+      <img src="images/danang/6.jpg">
+      <img src="images/danang/7.jpg">
+      <img src="images/danang/8.jpg">
+      <img src="images/danang/9.jpg">
+      <img src="images/danang/10.jpg">
+      <img src="images/danang/11.jpg">
+      <img src="images/danang/12.jpg">
+      <img src="images/danang/13.jpg">
+      <img src="images/danang/14.jpg">
+      <img src="images/danang/15.jpg">
+      <img src="images/danang/16.jpg">
+      <img src="images/danang/17.jpg">
+      <img src="images/danang/18.jpg">
+      <img src="images/danang/19.jpg">
+    </div>
+  </div>
+</div>
+<div class="layout layout-note1">
+  <h2>Hải Phòng</h2>
+
+  <div class="note-wrap">
+
+  <div class="note-card">
+    <div class="pin"></div>
+    <p class="note-text">
+        Lần này không còn là một điểm đến du lịch, mà là nhà. Là nơi anh lớn lên, nơi có gia đình luôn đợi anh trở về — và anh muốn có em đi cùng để khám phá nó.
+      </p>
+    </div>
+
+     <div class="note-card">
+    <div class="pin"></div>
+    <p class="note-text">
+        Anh sẽ cùng em nắm tay bước qua từng góc quen thuộc, kể cho em nghe những câu chuyện tuổi thơ, rồi tự hào giới thiệu với mọi người:<br>
+      “Đây là người con gái anh yêu.”
+    </div>
+  </div>
+</div>
+
+<div class="layout layout-note2">
+  <h2>Kontum</h2>
+
+  <div class="note-wrap">
+
+  <div class="note-card">
+    <div class="pin"></div>
+    <p class="note-text">
+        Anh biết nơi ấy không dễ bước vào. Nhưng anh vẫn muốn thử, vì anh muốn hiểu về mảnh đất đã nuôi em lớn, về gia đình đã yêu thương và tạo nên một người con gái đặc biệt như em.
+      </p>
+    </div>
+
+    <div class="note-card">
+    <div class="pin"></div>
+    <p class="note-text">
+        Anh không đến vì tò mò, mà vì trân trọng. Chỉ là… anh không biết mình có đủ may mắn để được trao cơ hội ấy không.
+      </p>
+    </div>
+  </div>
+</div>
+
+
+<audio id="bgMusic" src="love.mp3" loop autoplay></audio>
+
+<script>
+const modal=document.getElementById('modal')
+const modalBox=document.querySelector('.modal-box')
+const music=document.getElementById('bgMusic')
+music.volume=0.05
+
+setInterval(()=>{
+  const h=document.createElement('img')
+  h.src='images/heart.png'
+  h.className='heart-bg'
+  h.style.width=Math.random()*20+20+'px'
+  h.style.left=Math.random()*100+'vw'
+  h.style.animationDuration=
+    (Math.random()*5+6)+'s,'+(Math.random()*2+2)+'s'
+  document.body.appendChild(h)
+  setTimeout(()=>h.remove(),12000)
+},400)
+
+let leafInterval
+function startLeaves(){
+  leafInterval=setInterval(()=>{
+    const leaf=document.createElement('img')
+    leaf.src='images/leaf.png'
+    leaf.className='leaf'
+    leaf.style.left=Math.random()*100+'%'
+    leaf.style.width=Math.random()*25+30+'px'
+    const t=Math.random()*6+8
+    leaf.style.animationDuration=t+'s,'+(Math.random()*3+3)+'s'
+    modal.appendChild(leaf)
+    setTimeout(()=>leaf.remove(),t*1000)
+  },500)
+}
+let flowerInterval
+let snowInterval
+let heartInterval
+
+function startFlowers(){
+  flowerInterval=setInterval(()=>{
+    const flower=document.createElement('img')
+    flower.src='images/flower.png'
+    flower.className='flower'
+    flower.style.left=Math.random()*100+'%'
+    flower.style.width=Math.random()*25+30+'px'
+    const t=Math.random()*6+8
+    flower.style.animationDuration=t+'s,'+(Math.random()*3+3)+'s'
+    modal.appendChild(flower)
+    setTimeout(()=>flower.remove(),t*1000)
+  },500)
+}
+
+function startSnow(){
+  snowInterval=setInterval(()=>{
+    const snow=document.createElement('img')
+    snow.src='images/snow.png'
+    snow.className='snow'
+    snow.style.left=Math.random()*100+'%'
+    snow.style.width=Math.random()*20+20+'px'
+    const t=Math.random()*5+6
+    snow.style.animationDuration=t+'s,'+(Math.random()*3+3)+'s'
+    modal.appendChild(snow)
+    setTimeout(()=>snow.remove(),t*1000)
+  },300)
+}
+
+function startHearts(){
+  heartInterval=setInterval(()=>{
+    const heart=document.createElement('img')
+    heart.src='images/heart.png'
+    heart.className='heart-bg'
+    heart.style.position='absolute'
+    heart.style.left=Math.random()*100+'%'
+    heart.style.width=Math.random()*18+18+'px'
+    const t=Math.random()*6+8
+    heart.style.animationDuration=t+'s,'+(Math.random()*3+3)+'s'
+    modal.appendChild(heart)
+    setTimeout(()=>heart.remove(),t*1000)
+  },400)
+}
+
+function stopAllEffects(){
+  clearInterval(leafInterval)
+  clearInterval(flowerInterval)
+  clearInterval(snowInterval)
+  clearInterval(heartInterval)
+
+  modal.querySelectorAll('.leaf,.flower,.snow,.heart-bg')
+       .forEach(e=>e.remove())
+}
+
+
+function openGift(type){
+
+  document.querySelectorAll('.layout').forEach(l=>{
+    l.classList.remove('active')
+    l.style.display='none'
+  })
+
+  const currentLayout = document.querySelector('.layout-'+type)
+currentLayout.style.display='block'
+
+// reset animation cũ
+currentLayout.classList.remove(
+  'anim-fade','anim-up','anim-right','anim-rotate'
+)
+
+// danh sách animation
+const layoutAnimations = [
+  'anim-fade',
+  'anim-up',
+  'anim-right',
+  'anim-rotate'
+]
+
+// random 1 cái
+const randomAnim = layoutAnimations[
+  Math.floor(Math.random() * layoutAnimations.length)
+]
+
+// delay nhẹ cho mượt
+setTimeout(()=>{
+  currentLayout.classList.add('active')
+  currentLayout.classList.add(randomAnim)
+},50)
+
+
+  modal.classList.add('show')
+  music.volume=0.03
+
+
+  stopAllEffects()
+
+  /* XÓA class mùa cũ */
+  modalBox.classList.remove('spring','summer','autumn','winter')
+
+  /* GÁN MÙA MỚI */
+  if(type==='saigon'){
+    modalBox.classList.add('spring')
+    startFlowers()
+  }
+
+  if(type==='phuquoc'){
+    modalBox.classList.add('summer')
+    startHearts()
+  }
+
+  if(type==='dalat'){
+    modalBox.classList.add('autumn')
+    startLeaves()
+  }
+
+  if(type==='danang'){
+    modalBox.classList.add('winter')
+    startSnow()
+  }
+  if(type==='note1' || type==='note2'){
+  modalBox.classList.add('note-mode')
+}
+
+}
+
+function closeGift(){
+  modal.classList.remove('show')
+  music.volume=0.05
+  stopAllEffects()
+  modalBox.classList.remove('spring','summer','autumn','winter','note-mode')
+  modalBox.classList.remove('note-mode')
+  document.querySelectorAll('.layout').forEach(l=>{
+    l.classList.remove('active')
+    l.style.display='none'
+    
+
+  })
+}
+
+</script>
+
+</body>
+</html>
